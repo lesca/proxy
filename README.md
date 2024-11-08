@@ -24,6 +24,8 @@ port = 11080
 
 第一次执行会自动安装 `mitmproxy` 和 `requirements.txt` 中的依赖项。
 
+如果安装失败，最好需要先移除 proxy 环境 `conda env remove --name proxy`，然后再运行 run 脚本。
+
 ### 配置转发列表
 
 打开 `proxy.py` 文件并修改下面的列表变量：

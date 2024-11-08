@@ -1,15 +1,15 @@
 [中文](README.md)
 
-## Proxy Guidance
+## Proxy Guide
 
 ### Prerequisites
-* `miniconda` is installed
+* `miniconda` installed
 
 ### Configure Target Server
 
-The target server is a web server that provides HTTP/HTTPS services. If you forward traffic to the target server, it means the prerequisite is that the target server can handle these requests.
+The target server is a web server that provides HTTP/HTTPS services. If you forward traffic to the target server, it means the target server must be able to handle these requests.
 
-Open the `proxy.ini` file and modify the following variables to your target server. If the target server uses HTTPS, set `scheme` to `https`.
+Open the `proxy.ini` file and modify the following variables to match your target server. If the target server uses HTTPS, set `scheme` to `https`.
 
 ```ini
 [proxy]
@@ -22,27 +22,23 @@ Run the script:
 * Linux/MacOS: `./run.sh`
 * Windows: `run.bat`
 
-For the first time, the script will automatically install `mitmproxy` and the dependencies in `requirements.txt`.
+The first execution will automatically install `mitmproxy` and the dependencies listed in `requirements.txt`.
 
-### Configure Forward Lists
+If the installation fails, it's best to first remove the proxy environment using `conda env remove --name proxy`, then run the run script again.
+
+### Configure Forwarding Lists
 
 Open the `proxy.py` file and modify the following list variables:
 
 * `FORWARD_DOMAINS`: List of domains to forward.
-* `EXCLUDED_DOMAINS`: List of domains to NOT forward.
+* `EXCLUDED_DOMAINS`: List of domains to exclude from forwarding.
 * `LOG_KEYWORDS`: List of keywords to log.
 
-### Explaining the lists
+## Trust mitmproxy CA (Required)
 
-* `FORWARD_DOMAINS`: List of domains to forward.
-* `EXCLUDED_DOMAINS`: List of domains to NOT forward.
-* `LOG_KEYWORDS`: List of keywords to log.
+It's recommended to first check the official guide to understand some basic concepts: [https://docs.mitmproxy.org/stable/concepts-certificates/](https://docs.mitmproxy.org/stable/concepts-certificates/).
 
-## Trust mitmproxy CA (Mandatory)
-
-It's recommended to refer to the official guide [https://docs.mitmproxy.org/stable/concepts-certificates/](https://docs.mitmproxy.org/stable/concepts-certificates/).
-
-After `mitmproxy` is installed, it creates several files in the `~/.mitmproxy` directory.
+After installing `mitmproxy`, it creates several files in the `~/.mitmproxy` directory.
 
 List mitmproxy CA files:
 ```bash
@@ -55,23 +51,31 @@ mitmproxy-ca.pem
 mitmproxy-dhparam.pem
 ```
 
-Here is a brief guide for different operating systems.
+These are the certificates we need to install. Here are brief steps for different operating systems.
 
 ### MacOS
 
-Open **KeyChain** and import the `mitmproxy-ca-cert.pem` file to the **System** keychain.
+Open **Keychain Access** and import the `mitmproxy-ca-cert.pem` file into the **System** keychain.
 
-By default, the certificate is not trusted. Double click on the certificate and select **Trust** -> **When using this certificate** -> **Always Trust**.
+By default, the certificate is not trusted. Double-click the certificate and select **Trust** -> **When using this certificate** -> **Always Trust**.
 
-It's done.
+Done.
 
 ### Windows
 
-Use `mitmproxy-ca-cert.p12` file to import the certificate to the **Trusted Root Certification Authorities** store. Both **Current User** and **Local Machine** are OK. If you have admin access, it's better to import it to **Local Machine** store.
+Use the `mitmproxy-ca-cert.p12` file to import the certificate into the **Trusted Root Certification Authorities** store. Both **Current User** and **Local Machine** work. If you have administrator privileges, it's better to import it into the **Local Machine** store.
 
-It's done.
+Done.
 
-## Credits
+## Enjoy
+
+After completing the above steps, you can use mitmproxy to capture and forward HTTP/HTTPS requests.
+
+Simply run the script:
+* Linux/MacOS: `./run.sh`
+* Windows: `run.bat`
+
+## Acknowledgments
 
 * [https://docs.mitmproxy.org/stable/concepts-certificates/](https://docs.mitmproxy.org/stable/concepts-certificates/)
 * [https://github.com/mitmproxy/mitmproxy](https://github.com/mitmproxy/mitmproxy)
