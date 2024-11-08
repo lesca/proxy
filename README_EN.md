@@ -1,26 +1,42 @@
 [中文](README.md)
+
 ## Proxy Guidance
 
 ### Prerequisites
-* `miniconda` is installed on your computer.
+* `miniconda` is installed
 
-### Getting Started
+### Configure Target Server
 
-Open the proxy.py file and modify the `TARGET_HOST` and `TARGET_PORT` variables to your target server and port.
+The target server is a web server that provides HTTP/HTTPS services. If you forward traffic to the target server, it means the prerequisite is that the target server can handle these requests.
 
-Run the script:
-```bash
-./run.sh
+Open the `proxy.ini` file and modify the following variables to your target server. If the target server uses HTTPS, set `scheme` to `https`.
+
+```ini
+[proxy]
+scheme = http
+host = 192.168.2.8
+port = 11080
 ```
 
+Run the script:
+* Linux/MacOS: `./run.sh`
+* Windows: `run.bat`
+
 For the first time, the script will automatically install `mitmproxy` and the dependencies in `requirements.txt`.
+
+### Configure Forward Lists
+
+Open the `proxy.py` file and modify the following list variables:
+
+* `FORWARD_DOMAINS`: List of domains to forward.
+* `EXCLUDED_DOMAINS`: List of domains to NOT forward.
+* `LOG_KEYWORDS`: List of keywords to log.
 
 ### Explaining the lists
 
 * `FORWARD_DOMAINS`: List of domains to forward.
 * `EXCLUDED_DOMAINS`: List of domains to NOT forward.
 * `LOG_KEYWORDS`: List of keywords to log.
-
 
 ## Trust mitmproxy CA (Mandatory)
 

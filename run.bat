@@ -5,7 +5,7 @@ set script_dir=%~dp0
 set env_name=proxy
 
 REM init conda
-call conda init
+call conda activate
 
 REM check if conda environment is installed
 conda env list | findstr /C:"%env_name%" >nul

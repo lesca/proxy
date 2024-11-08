@@ -1,9 +1,14 @@
 from mitmproxy import ctx
 from mitmproxy import http
+import configparser
+
+config = configparser.ConfigParser()
+config.read("proxy.ini")
 
 # Target server
-TARGET_HOST = "192.168.2.8"
-TARGET_PORT = 11443
+TARGET_SCHEME = config["proxy"]["scheme"]
+TARGET_HOST = config["proxy"]["host"]
+TARGET_PORT = config["proxy"]["port"]
 
 # List of domains to forward
 FORWARD_DOMAINS = [
@@ -45,6 +50,6 @@ def request(flow: http.HTTPFlow) -> None:
         flow.request.headers["Host"] = flow.request.pretty_host
         flow.request.host = TARGET_HOST
         flow.request.port = TARGET_PORT
-        flow.request.scheme = "http"
+        flow.request.scheme = TARGET_SCHEME
         
         ctx.log.info(f"Forwarding request for {original_scheme}://{original_host}:{original_port} to {TARGET_HOST}:{TARGET_PORT}")
