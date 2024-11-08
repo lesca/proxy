@@ -8,7 +8,7 @@ config.read("proxy.ini")
 # Target server
 TARGET_SCHEME = config["proxy"]["scheme"]
 TARGET_HOST = config["proxy"]["host"]
-TARGET_PORT = config["proxy"]["port"]
+TARGET_PORT = int(config["proxy"]["port"])
 
 # List of domains to forward
 FORWARD_DOMAINS = [
